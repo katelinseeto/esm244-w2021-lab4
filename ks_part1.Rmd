@@ -1,0 +1,31 @@
+---
+title: 'Lab 4: Interactive Rmd'
+author: "Katelin Seeto"
+date: "1/28/2021"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(palmerpenguins)
+```
+
+```{r flippers, echo=FALSE}
+
+inputPanel(
+  
+  selectInput(inputId = "pick_spp",
+              label = "Pick your penguin species:",
+              choices = c("Adelie", 
+                          "Chinstrap", 
+                          "Gentoo"))
+  
+)
+
+
+```
+ 
+ 
