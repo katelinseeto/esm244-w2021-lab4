@@ -1,6 +1,6 @@
 ---
 title: 'Part 2: tsibble basics for time series exploration'
-author: "Allison Horst"
+author: "Katelin Seeto"
 output: html_document
 ---
 
