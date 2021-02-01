@@ -103,4 +103,40 @@ toolik_month %>%
 
 ```
 
+#### Seasonal subseries plot
+
+```{r}
+toolik_month %>% 
+gg_subseries(monthly_mean_temp)
+```
+#### Calculate moving average using the slider package in R
+
+```{r}
+#Creating a test vector
+set.seed(2021) #psuedo random number generator
+test <- rnorm(n = 100,
+              mean = 40, 
+              sd = 10) # obs pulled from a normal distribution where I want to have 100 total obs, where mean is 40 and sd is 10
+
+slide(test, ~.x, .before = 2, .after = 2) # use slide funct on test, across all values of this vector, make windows so they extend before 2 and after 2, or a window of 5 where the avg would be calculated
+
+```
+```{r}
+
+#Calculate rolling average with window size 15 days
+roll_toolik_15 <- toolik_ts %>% 
+  mutate(ma_15d = as.numeric(slide(toolik_ts$mean_airtemp, 
+                                   mean,
+                                   .before = 7,
+                                   .after = 7))) #the window is usually stored as list so must convert to numeric
+ 
+ggplot()+
+  geom_line(data = toolik_ts, aes(x = date, y = mean_airtemp),
+            size= 0.2,
+            color= "gray") +
+  geom_line(data = roll_toolik_15, aes(x = date, y = ma_15d)) + # can graphs as long as data sources are same 
+  theme_minimal()
+```
+
+
 
