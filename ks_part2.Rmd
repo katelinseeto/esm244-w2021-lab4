@@ -88,3 +88,19 @@ toolik_ts %>%
 toolik_ts %>% 
   filter_index("2000-04-10" ~ "2006-05-15", "1988-06-01")
 ```
+
+#### Season plots
+Recognizes season and automatically puts series as year, can show how seasonality is changing over time
+```{r}
+toolik_ts %>% 
+  filter(year(date) > 2014) %>% # pulls year from date col and filters for >2014
+  gg_season(y = mean_airtemp)
+
+
+toolik_month %>% 
+  gg_season(y = monthly_mean_temp) + 
+  theme_light()
+
+```
+
+
