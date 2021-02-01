@@ -10,10 +10,62 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
 library(here)
-library(lubridate)# part of tidyverse but doesn't come along automatc
+library(lubridate)# part of tidyverse but doesn't come along automatically
 library(tsibble)# for time series tibbles
 library(feasts)# for wrangling and working with time series data
 library(slider)# for finding moving avg where we specify window
  
+```
+
+#### Read in data
+
+```{r}
+toolik <- read_csv(here("data", "toolikweather.csv"))  #currently thinks date is character vector, won't plot right
+ 
+```
+
+#### Convert this into tsibble (time series data frame or tibble)
+
+```{r}
+toolik_ts <- toolik %>% 
+  mutate(date = lubridate::mdy(date)) %>%  #must be in order of existing data, if was year, month, day would use ymd
+   as_tsibble(key = NULL, 
+             index = date)#index is whatever col has your time series data
+  
+```
+
+```{r}
+ggplot(data= toolik_ts, aes(x = date, y = mean_airtemp))+
+  geom_line()
+
+# Now ask some big picture questions: 
+#   Is there seasonality, cyclicality, overall trend, notable outliers?
+#   In this plot, seasonality is dominant feature
+
+
+```
+
+#### Use `index_by()` function to aggregate time series info by intervals we specify, is like the `group_by()` function but for time series data 
+#### Find averages, max, or other charteristics by intervals we specify
+
+```{r}
+# For each year, for each month, what is the mean air temp?
+toolik_month <- toolik_ts %>% 
+  index_by(yr_mo = ~yearmonth(.)) %>% # is a function of year and month, across entire index
+  summarize(monthly_mean_temp = mean(mean_airtemp, na.rm = TRUE))
+
+ggplot(data = toolik_month, aes(x = yr_mo, y = monthly_mean_temp))+ 
+  geom_line()+
+  facet_wrap(~month(yr_mo, label = TRUE))# Can also split by month across years instead
+
+
+```
+
+#### Aggregate by week: 
+```{r}
+toolik_weekly <- toolik_ts %>% 
+  index_by(weekly = ~yearweek(.)) %>% 
+  summarize(weekly_airtemp = mean(mean_airtemp, na.rm = TRUE), 
+            min_airtemp = min(mean_airtemp))
 ```
 
