@@ -69,3 +69,22 @@ toolik_weekly <- toolik_ts %>%
             min_airtemp = min(mean_airtemp))
 ```
 
+#### Filtering time series 
+use `filter_index()` to specify ranges of time series to keep or exclude. 
+
+```{r}
+# Filter time series from start of June 2000 to end of October 2001
+
+toolik_ts %>% 
+  filter_index("2000-06" ~ "2001-10")
+
+# Filter by day resolution 
+
+toolik_ts %>% 
+  filter_index("2000-04-10" ~ "2006-05-15")
+
+# Filter a range and then one random day 
+
+toolik_ts %>% 
+  filter_index("2000-04-10" ~ "2006-05-15", "1988-06-01")
+```

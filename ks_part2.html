@@ -427,6 +427,64 @@ ggplot(data = toolik_month, aes(x = yr_mo, y = monthly_mean_temp))+
   summarize(weekly_airtemp = mean(mean_airtemp, na.rm = TRUE), 
             min_airtemp = min(mean_airtemp))</code></pre>
 </div>
+<div id="filtering-time-series" class="section level4">
+<h4>Filtering time series</h4>
+<p>use <code>filter_index()</code> to specify ranges of time series to keep or exclude.</p>
+<pre class="r"><code># Filter time series from start of June 2000 to end of October 2001
+
+toolik_ts %&gt;% 
+  filter_index(&quot;2000-06&quot; ~ &quot;2001-10&quot;)</code></pre>
+<pre><code>## # A tsibble: 518 x 5 [1D]
+##    date       station              mean_airtemp daily_precip mean_windspeed
+##    &lt;date&gt;     &lt;chr&gt;                       &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;
+##  1 2000-06-01 Toolik Field Station          2.5          0              3.8
+##  2 2000-06-02 Toolik Field Station         -3            6.6            2.3
+##  3 2000-06-03 Toolik Field Station         -1.3          0.8            2.1
+##  4 2000-06-04 Toolik Field Station          4.8          1.3            2  
+##  5 2000-06-05 Toolik Field Station          8.5          0              3.2
+##  6 2000-06-06 Toolik Field Station         12.8          0.8            4.1
+##  7 2000-06-07 Toolik Field Station         12.9          0              2.8
+##  8 2000-06-08 Toolik Field Station          9.5          0              3.2
+##  9 2000-06-09 Toolik Field Station          9.6          1              2.7
+## 10 2000-06-10 Toolik Field Station         12.3          0              3.1
+## # ... with 508 more rows</code></pre>
+<pre class="r"><code># Filter by day resolution 
+
+toolik_ts %&gt;% 
+  filter_index(&quot;2000-04-10&quot; ~ &quot;2006-05-15&quot;)</code></pre>
+<pre><code>## # A tsibble: 2,227 x 5 [1D]
+##    date       station              mean_airtemp daily_precip mean_windspeed
+##    &lt;date&gt;     &lt;chr&gt;                       &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;
+##  1 2000-04-10 Toolik Field Station        -13.9          0.5            2.9
+##  2 2000-04-11 Toolik Field Station         -6.2          0              7  
+##  3 2000-04-12 Toolik Field Station         -4            0.5            5.8
+##  4 2000-04-13 Toolik Field Station         -7.2          0.3            2.8
+##  5 2000-04-14 Toolik Field Station         -9.9          0              3.6
+##  6 2000-04-15 Toolik Field Station        -14.1          0.5            2.5
+##  7 2000-04-16 Toolik Field Station        -13.6          0              5.1
+##  8 2000-04-17 Toolik Field Station        -20.5          0.5            2.3
+##  9 2000-04-18 Toolik Field Station        -15.8          0.3            2.5
+## 10 2000-04-19 Toolik Field Station        -22.7          0              1.4
+## # ... with 2,217 more rows</code></pre>
+<pre class="r"><code># Filter a range and then one random day 
+
+toolik_ts %&gt;% 
+  filter_index(&quot;2000-04-10&quot; ~ &quot;2006-05-15&quot;, &quot;1988-06-01&quot;)</code></pre>
+<pre><code>## # A tsibble: 2,228 x 5 [1D]
+##    date       station              mean_airtemp daily_precip mean_windspeed
+##    &lt;date&gt;     &lt;chr&gt;                       &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;
+##  1 1988-06-01 Toolik Field Station          8.4          0             NA  
+##  2 2000-04-10 Toolik Field Station        -13.9          0.5            2.9
+##  3 2000-04-11 Toolik Field Station         -6.2          0              7  
+##  4 2000-04-12 Toolik Field Station         -4            0.5            5.8
+##  5 2000-04-13 Toolik Field Station         -7.2          0.3            2.8
+##  6 2000-04-14 Toolik Field Station         -9.9          0              3.6
+##  7 2000-04-15 Toolik Field Station        -14.1          0.5            2.5
+##  8 2000-04-16 Toolik Field Station        -13.6          0              5.1
+##  9 2000-04-17 Toolik Field Station        -20.5          0.5            2.3
+## 10 2000-04-18 Toolik Field Station        -15.8          0.3            2.5
+## # ... with 2,218 more rows</code></pre>
+</div>
 
 
 
