@@ -1,6 +1,6 @@
 ---
 title: 'Part 1: Interactive RMarkdown'
-author: "Allison Horst"
+author: "Alison Horst"
 output: html_notebook
 runtime: shiny
 ---
@@ -26,7 +26,7 @@ In the setup chunk, attach:
 - `tidyverse`
 - `palmerpenguins`
 
-### Add some interactivity! 
+### Some interactivity! 
 
 ```{r flippers, echo=FALSE}
 inputPanel(
@@ -44,10 +44,9 @@ penguin_set <- reactive({
 
 renderPlot({
   ggplot(data = penguin_set(), aes(x = flipper_length_mm, y = body_mass_g)) +
-    geom_point(size = input$pt_size)
+    geom_point(size = input$pt_size)+
+    theme_light()
 })
-```
-
-...which is pretty cool. 
+``` 
 
 You can publish to a free [shinyapps.io](https://www.shinyapps.io/) account! 
