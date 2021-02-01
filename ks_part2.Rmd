@@ -1,0 +1,19 @@
+---
+title: 'Lab 4 Part 2: Intro to time series wrangling and viz'
+author: "Katelin Seeto"
+date: "2/1/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(here)
+library(lubridate)# part of tidyverse but doesn't come along automatc
+library(tsibble)# for time series tibbles
+library(feasts)# for wrangling and working with time series data
+library(slider)# for finding moving avg where we specify window
+ 
+```
+
