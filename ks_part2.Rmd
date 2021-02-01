@@ -138,5 +138,34 @@ ggplot()+
   theme_minimal()
 ```
 
+#### Create ACF (Autocorrelation Function from feasts)
+visual representation of how observations are correlated w/ prior observations on the same variable over specified lags 
+
+```{r}
+toolik_ts %>% 
+  ACF(mean_airtemp) %>% 
+  autoplot()
+# Makes sense since days in same month are probably highly correlated
+
+# Try with monthly data
+toolik_month %>% 
+  ACF(monthly_mean_temp) %>% 
+  autoplot()
+# Now see clear and reflected seasonality, in our ACF
+# This means we can see on x axis there is a lag in months, observations that are 12mo apart are strongly positively correlated, and obs that are 6mo apart (opposite seasons) are negatively correlated, and not much dampening over years 
+
+```
+
+#### Decomposition by STL (seasonal trend and lowest composition)
+
+```{r}
+toolik_dec <- toolik_month %>% 
+  model(STL(monthly_mean_temp ~ season(window = Inf)))# model with the STL model, start with monthly mean temp modeled as a function of the different seasons for a period of time specified by Inf, but is all stored as a mondel.... not useful
+
+components(toolik_dec) %>% #pulls the components out of model to plot
+  autoplot()
+
+```
+
 
 
